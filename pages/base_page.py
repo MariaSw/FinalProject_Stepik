@@ -2,6 +2,8 @@
 # В ней мы опишем вспомогательные методы для работы с драйвером
 
 from selenium.common.exceptions import NoSuchElementException
+from selenium.common.exceptions import NoAlertPresentException
+import math
 
 class BasePage():
     #конструктор — метод, который вызывается, когда мы создаем объект
@@ -27,3 +29,24 @@ class BasePage():
 
     def URL_contains(self, what):
         return what in self.browser.current_url
+
+    def solve_quiz_and_get_code(self):
+        alert = self.browser.switch_to.alert
+        x = alert.text.split(" ")[2]
+        answer = str(math.log(abs((12 * math.sin(float(x))))))
+        alert.send_keys(answer)
+        alert.accept()
+        try:
+            alert = self.browser.switch_to.alert
+            alert_text = alert.text
+            print(f"Your code: {alert_text}")
+            alert.accept()
+        except NoAlertPresentException:
+            print("No second alert presented")
+
+    def elements_equal(self, exp, act):
+
+
+        return exp.text==act.text
+
+
