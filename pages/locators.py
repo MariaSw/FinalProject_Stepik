@@ -17,3 +17,4 @@ class ProductPageLocators():
 
     PRODUCT_NAME_ON_PAGE = (By.CSS_SELECTOR, "article.product_page .product_main > h1")
     PRODUCT_NAME_IN_MESSAGE = (By.CSS_SELECTOR, "#messages > .alert-success:nth-child(1) strong")
+#myoption
