@@ -44,9 +44,10 @@ class BasePage():
         except NoAlertPresentException:
             print("No second alert presented")
 
-    def elements_equal(self, exp, act):
-
-
-        return exp.text==act.text
+    def elements_equal(self, howexp, whatexp, howact, whatact):
+        exp = self.browser.find_element(howexp, whatexp).text
+        act = self.browser.find_element(howact, whatact).text
+        return exp==act
+    #myoption
 
 
