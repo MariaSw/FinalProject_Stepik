@@ -4,6 +4,7 @@
 from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import NoAlertPresentException
 import math
+import time
 
 class BasePage():
     #конструктор — метод, который вызывается, когда мы создаем объект
@@ -11,6 +12,7 @@ class BasePage():
         self.browser = browser
         self.url = url
         self.browser.implicitly_wait(timeout)
+
 
     #открывать нужную страницу в браузере
     def open(self):
@@ -49,5 +51,7 @@ class BasePage():
         act = self.browser.find_element(howact, whatact).text
         return exp==act
     #myoption
+
+
 
 
