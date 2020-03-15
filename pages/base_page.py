@@ -5,6 +5,11 @@ from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import NoAlertPresentException
 import math
 import time
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import TimeoutException
+from selenium.webdriver.support.ui import WebDriverWait
+from .locators import BasePageLocators
+
 
 class BasePage():
     #конструктор — метод, который вызывается, когда мы создаем объект
@@ -13,6 +18,14 @@ class BasePage():
         self.url = url
         self.browser.implicitly_wait(timeout)
 
+    def go_to_login_page(self):
+        login_link = self.browser.find_element(*BasePageLocators.LOGIN_LINK)
+        login_link.click()
+        #alert = self.browser.switch_to.alert
+        #alert.accept()
+
+    def should_be_login_link(self):
+        assert self.is_element_present(*BasePageLocators.LOGIN_LINK), "Login link is not present"
 
     #открывать нужную страницу в браузере
     def open(self):
@@ -28,6 +41,23 @@ class BasePage():
         except NoSuchElementException:
             return False
         return True
+
+    def is_not_element_present(self, how, what, timeout=5):
+        try:
+            WebDriverWait(self.browser, timeout).\
+                until(EC.presence_of_element_located((how, what)))
+        except TimeoutException:
+            return True
+        return False
+
+    def is_disappeared(self, how, what, timeout=5):
+        try:
+            WebDriverWait(self.browser, timeout, 1, TimeoutException).\
+                until_not(EC.presence_of_element_located((how, what)))
+        except TimeoutException:
+            return False
+        return True
+
 
     def URL_contains(self, what):
         return what in self.browser.current_url
